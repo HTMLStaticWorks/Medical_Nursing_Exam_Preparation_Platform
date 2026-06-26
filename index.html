@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse | Medical & Nursing Exam Preparation Platform</title>
+    <meta name="description" content="Conquer NCLEX, HESI, TEAS, and board exams. Data-driven study planning, weak topic tracking, and confidence-building progress metrics for exam-anxious students.">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <div class="nav-brand-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                </div>
+                <span>Nurse</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="home-2.html">Home 2</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="study-packages.html">Packages</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="themeToggle" class="action-icon" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+                <button id="rtlToggle" class="action-icon" aria-label="Toggle RTL" title="Toggle RTL">⇄</button>
+                <a href="dashboard.html" class="action-icon" aria-label="Dashboard" title="Dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                </a>
+                <a href="login.html" class="btn btn-primary" style="height: 44px; padding: 0 20px;">Login</a>
+                <button class="mobile-menu-toggle action-icon" aria-label="Toggle Menu">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Premium SaaS Hero -->
+    <section class="hero-premium hero-has-bg" style="background-image: url('https://cdn.residencyadvisor.com/images/articles_v1_rewrite/v1_RESIDENCY_LIFE_AND_CHALLENGES_BOARD_EXAMS_RESIDENCY_mock_exams_key_confidence-step1-medical-resident-taking-a-timed-mock-exa-8626.png');">
+        <!-- Dark overlay (hidden on 360px, visible on 768px+) -->
+        <div class="hero-bg-overlay"></div>
+        <div class="container">
+            <div class="hero-premium-grid">
+                
+                <!-- Left Content: 55% -->
+                <div class="hero-premium-content fade-up">
+                    <div class="badge-premium">
+                        <div class="badge-pulse"></div>
+                        Confidence-Building Board Prep
+                    </div>
+                    
+                    <h1>
+                        Conquer Board Exams<br>
+                        <span class="text-highlight">With Clinical Confidence</span>
+                    </h1>
+                    
+                    <p class="subheading" style="transition-delay: 0.1s;">
+                        Overcome exam anxiety using adaptive mock tests, tracking your weak topic areas in real time, and studying with board-certified MSN educator plans.
+                    </p>
+                    
+                    <div class="hero-premium-actions" style="transition-delay: 0.2s;">
+                        <a href="dashboard.html" class="btn btn-primary" style="height: 56px; padding: 0 32px; font-size: 16px;">Go to Dashboard</a>
+                        <a href="study-packages.html" class="btn btn-glass" style="height: 56px; padding: 0 32px; font-size: 16px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; text-decoration: none; font-weight: 500;">Explore Packages</a>
+                    </div>
+                </div>
+
+                <!-- Right Visual: 45% -->
+                <div class="hero-premium-visual fade-up" style="transition-delay: 0.2s;">
+                    <div class="hero-image-card">
+                        <img src="https://cdn.residencyadvisor.com/images/articles_v1_rewrite/v1_RESIDENCY_LIFE_AND_CHALLENGES_BOARD_EXAMS_RESIDENCY_mock_exams_key_confidence-step1-medical-resident-taking-a-timed-mock-exa-8626.png" alt="Nurse Student Prep Platform" class="img-cover">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. Rigorous Board Prep Vetting -->
+    <section class="premium-section" style="padding: 100px 0; overflow: hidden;">
+        <div class="container">
+            <div class="grid-2 tab-stack image-first" style="align-items: center; gap: 64px;">
+                <!-- Image Side -->
+                <div class="fade-up" style="position: relative;">
+                    <div style="position: relative; border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-hover);">
+                        <img src="assets/images/vetting_nurse.png" alt="Board-Certified Tutors" class="img-cover" style="height: 500px; transform: scale(1.02); transition: var(--transition);">
+                    </div>
+                    <!-- Glassmorphism Badge -->
+                    <div class="floating-badge-right" style="position: absolute; bottom: 32px; right: -32px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 24px; border-radius: 20px; box-shadow: var(--shadow-hover); max-width: 240px; z-index: 2;">
+                        <div style="color: var(--primary-accent); font-size: 32px; font-weight: 700; line-height: 1;">100%</div>
+                        <div style="font-weight: 600; color: var(--text-primary); margin-top: 8px;">Board Aligned</div>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px; margin-bottom: 0;">Verified curriculum & certified nursing mentors.</p>
+                    </div>
+                </div>
+                <!-- Content Side -->
+                <div class="fade-up" style="transition-delay: 0.2s;">
+                    <div class="badge-premium" style="margin-bottom: 16px;">Security & Trust</div>
+                    <h2 style="font-size: 40px; line-height: 1.2; margin-bottom: 24px;">Rigorous Standards For Your <span class="text-highlight">Board Success</span></h2>
+                    <p class="subheading" style="margin-bottom: 32px;">We don't just compile practice questions; we curate board-aligned materials reviewed by clinical educators. Our quality protocol ensures exam readiness.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--secondary-bg); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">🛡️</div>
+                            <div>
+                                <h4 style="font-size: 18px; margin-bottom: 4px;">Board-Aligned Question Quality</h4>
+                                <p style="color: var(--text-secondary); font-size: 15px; margin: 0;">Rationales matching the cognitive demand of the official NCLEX exam guidelines.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--secondary-bg); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">📜</div>
+                            <div>
+                                <h4 style="font-size: 18px; margin-bottom: 4px;">Verified Nursing Educator Credentials</h4>
+                                <p style="color: var(--text-secondary); font-size: 15px; margin: 0;">Every mock review and tutoring resource is structured by MSN and DNP experts.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--secondary-bg); color: var(--primary-accent); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">❤️</div>
+                            <div>
+                                <h4 style="font-size: 18px; margin-bottom: 4px;">Cognitive Anxiety Management</h4>
+                                <p style="color: var(--text-secondary); font-size: 15px; margin: 0;">Developing testing strategies and focus habits to turn exam fear into high scores.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Bespoke Study Packages -->
+    <section class="premium-section bg-secondary" style="padding: 100px 0; position: relative;">
+        <div class="container">
+            <div class="section-header text-center fade-up">
+                <div class="badge-premium" style="margin-bottom: 16px; margin-left: auto; margin-right: auto;">Prep Options</div>
+                <h2 style="font-size: 40px;">Tailored Exam Prep Solutions</h2>
+                <p class="subheading" style="margin-left: auto; margin-right: auto; max-width: 600px;">Explore study suites designed to fit your learning speed and help you confidently pass your clinical licensing boards.</p>
+            </div>
+            
+            <div class="grid-2 prep-options-grid" style="gap: 40px; margin-top: 64px; align-items: center;">
+                <!-- Left: Stacked Premium Cards -->
+                <div class="prep-options-cards" style="display: flex; flex-direction: column; gap: 24px;">
+                    <div class="card fade-up" style="border-left: 4px solid var(--primary-accent); padding: 32px; transition: var(--transition);">
+                        <h3 style="font-size: 24px; margin-bottom: 12px;">NCLEX-RN Prep Suite</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 16px;">High-yield rationales and next-gen case studies to ensure a confident, rapid pathway to passing the NCLEX exam.</p>
+                        <a href="study-packages.html" style="color: var(--primary-accent); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">Explore Package</a>
+                    </div>
+                    <div class="card fade-up" style="border-left: 4px solid var(--support-accent); padding: 32px; transition: var(--transition); transition-delay: 0.1s;">
+                        <h3 style="font-size: 24px; margin-bottom: 12px;">NCLEX-PN Review Plan</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 16px;">Focused safety, pharmacology, and physiological reviews to assist practical nurses in passing on the first attempt.</p>
+                        <a href="study-packages.html" style="color: var(--primary-accent); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">Explore Package</a>
+                    </div>
+                    <div class="card fade-up" style="border-left: 4px solid var(--highlight-accent); padding: 32px; transition: var(--transition); transition-delay: 0.2s;">
+                        <h3 style="font-size: 24px; margin-bottom: 12px;">Entrance Exam Booster</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 16px;">Strategic math tutorials and science reviews to help pre-nursing students score in top percentiles on HESI & TEAS entrance diagnostics.</p>
+                        <a href="study-packages.html" style="color: var(--primary-accent); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">Explore Package</a>
+                    </div>
+                </div>
+                
+                <!-- Right: Large Image -->
+                <div class="fade-up prep-options-image" style="height: 100%; transition-delay: 0.3s;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxzLYiI5mon7hWXioz26VEaxNY3wwp2c9__j-ZG9bNI_VQvlNi2IcBl0m8&s=10" alt="Student Studying" style="width: 100%; height: 100%; object-fit: cover; border-radius: 24px; box-shadow: var(--shadow-hover); min-height: 500px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Testimonials -->
+    <section class="bg-secondary">
+        <div class="container text-center fade-up">
+            <div class="section-header">
+                <h2>Trusted By Nursing Graduates</h2>
+                <p class="subheading">Hear from the students who successfully navigated exam stress using our analytics.</p>
+            </div>
+            <div class="grid-3">
+                <div class="card" style="align-items: center; text-align: center; display: flex; flex-direction: column;">
+                    <div style="color: var(--highlight-accent); font-size: 24px; margin-bottom: 16px;">★★★★★</div>
+                    <p class="card-text" style="flex-grow: 1;">"My test anxiety was paralyzing. The weak-topic analysis highlighted exactly where I was failing (Cardio Pharmacology), helping me review and pass NCLEX-RN on my first try!"</p>
+                    <div style="margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--secondary-bg); display: flex; align-items: center; justify-content: center; color: var(--primary-accent); border: 2px solid var(--border-color); flex-shrink: 0;">
+                            <img src="assets/images/author_sarah.png" alt="Sarah Jenkins" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <div style="text-align: left;">
+                            <h4 style="font-size: 18px; margin-bottom: 4px;">Sarah Jenkins</h4>
+                            <span style="color: var(--text-secondary); font-size: 14px;">Graduate RN</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="align-items: center; text-align: center; display: flex; flex-direction: column;">
+                    <div style="color: var(--highlight-accent); font-size: 24px; margin-bottom: 16px;">★★★★★</div>
+                    <p class="card-text" style="flex-grow: 1;">"The predictive mock exams matched the NCLEX format perfectly. The accuracy trends dashboard showed me exactly when my scores were in the safe pass zone."</p>
+                    <div style="margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--secondary-bg); display: flex; align-items: center; justify-content: center; color: var(--primary-accent); border: 2px solid var(--border-color); flex-shrink: 0;">
+                            <img src="assets/images/author_michael.png" alt="Michael Torres" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <div style="text-align: left;">
+                            <h4 style="font-size: 18px; margin-bottom: 4px;">Michael Torres</h4>
+                            <span style="color: var(--text-secondary); font-size: 14px;">LPN Graduate</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="align-items: center; text-align: center; display: flex; flex-direction: column;">
+                    <div style="color: var(--highlight-accent); font-size: 24px; margin-bottom: 16px;">★★★★★</div>
+                    <p class="card-text" style="flex-grow: 1;">"Nurse broke down complex science topics into clear, bite-sized quizzes. The confidence-building metrics are a game changer."</p>
+                    <div style="margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--secondary-bg); display: flex; align-items: center; justify-content: center; color: var(--primary-accent); border: 2px solid var(--border-color); flex-shrink: 0;">
+                            <img src="assets/images/author_emily.png" alt="Emily Chen" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                        <div style="text-align: left;">
+                            <h4 style="font-size: 18px; margin-bottom: 4px;">Emily Chen</h4>
+                            <span style="color: var(--text-secondary); font-size: 14px;">Nursing Student</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Next-Gen Study Portal (Dark Mode Section) -->
+    <section class="premium-section" style="padding: 100px 0; background: #0F1F1A; color: #FFFFFF; position: relative; overflow: hidden;">
+        <!-- Glowing Orb Background Effect -->
+        <div style="position: absolute; top: -20%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, rgba(15,23,42,0) 70%); border-radius: 50%; z-index: 0;"></div>
+        
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="grid-2 tab-stack" style="align-items: center; gap: 80px;">
+                
+                <!-- Content Side -->
+                <div class="fade-up">
+                    <div class="badge-premium" style="margin-bottom: 16px; background: rgba(255,255,255,0.1); color: #34D399; border-color: rgba(56,189,248,0.3);">Real-Time Progress</div>
+                    <h2 style="font-size: 40px; line-height: 1.2; margin-bottom: 24px; color: #FFFFFF;">Stay on Track with the <span style="color: #34D399;">Nurse Portal</span></h2>
+                    <p style="color: #A7C4B5; font-size: 18px; line-height: 1.6; margin-bottom: 40px;">Never guess if you're ready. Our proprietary digital dashboard allows students to monitor accuracy trends, review detailed question rationales, and message tutors in real-time, from anywhere.</p>
+                    
+                    <div style="display: flex; gap: 32px; margin-bottom: 48px;">
+                        <div>
+                            <div style="font-size: 32px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">24/7</div>
+                            <div style="color: #A7C4B5; font-size: 14px;">Tutor Support</div>
+                        </div>
+                        <div style="width: 1px; background: rgba(255,255,255,0.1);"></div>
+                        <div>
+                            <div style="font-size: 32px; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">100%</div>
+                            <div style="color: #A7C4B5; font-size: 14px;">Board Aligned</div>
+                        </div>
+                    </div>
+                    
+                    <a href="dashboard.html" class="btn btn-primary" style="background: #34D399; border-color: #34D399; color: #0F1F1A; font-weight: 600; padding: 0 32px; height: 56px;">Explore The Dashboard</a>
+                </div>
+
+                <!-- Visual Side -->
+                <div class="fade-up" style="position: relative; transition-delay: 0.2s;">
+                    <img src="assets/images/digital_care_portal.png" alt="Student Progress Portal" style="width: 100%; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);">
+                    
+                    <!-- Floating UI Element -->
+                    <div class="floating-badge-left" style="position: absolute; bottom: 40px; left: -32px; background: rgba(15,23,42,0.85); backdrop-filter: blur(16px); padding: 20px 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                        <div style="width: 12px; height: 12px; background: #10B981; border-radius: 50%; box-shadow: 0 0 10px rgba(16,185,129,0.5);"></div>
+                        <div>
+                            <div style="color: #FFFFFF; font-weight: 600; font-size: 14px;">Scores Graded</div>
+                            <div style="color: #A7C4B5; font-size: 12px;">Mock Exam #3 analyzed by Sarah Jenkins, MSN</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Transparent Pricing & Value -->
+    <section class="premium-section" style="padding: 100px 0;">
+        <div class="container">
+            <div class="grid-2 tab-stack" style="align-items: center; gap: 64px;">
+                <!-- Content Side -->
+                <div class="fade-up">
+                    <div class="badge-premium" style="margin-bottom: 16px;">Transparent Plans</div>
+                    <h2 style="font-size: 40px; line-height: 1.2; margin-bottom: 24px;">Comprehensive Prep.<br><span class="text-highlight">No Hidden Fees.</span></h2>
+                    <p class="subheading" style="margin-bottom: 32px;">We believe in honest subscriptions. Select the plan that matches your study timeline and gain instant dashboard access to master your exam.</p>
+                    
+                    <div class="grid-2" style="gap: 24px; margin-bottom: 40px;">
+                        <div style="background: var(--secondary-bg); padding: 24px; border-radius: 16px;">
+                            <h4 style="font-size: 18px; margin-bottom: 8px;">Flat Subscriptions</h4>
+                            <p style="color: var(--text-secondary); font-size: 14px; margin: 0;">Fixed rates with unlimited quiz generation and dashboard analytics.</p>
+                        </div>
+                        <div style="background: var(--secondary-bg); padding: 24px; border-radius: 16px;">
+                            <h4 style="font-size: 18px; margin-bottom: 8px;">Pass Guarantee Plans</h4>
+                            <p style="color: var(--text-secondary); font-size: 14px; margin: 0;">Full reimbursement if you follow our plan and do not pass your board.</p>
+                        </div>
+                    </div>
+                    
+                    <a href="pricing.html" class="btn btn-primary" style="height: 56px; padding: 0 32px; font-size: 16px;">View Subscription Pricing</a>
+                </div>
+                
+                <!-- Image Side -->
+                <div class="fade-up" style="position: relative; transition-delay: 0.2s;">
+                    <img src="https://www.famu.edu/students/student-financial-services/img/Payment_In_Person_640x480.jpg" alt="Student Studying Review" style="width: 100%; border-radius: 24px; box-shadow: var(--shadow-hover);">
+                    
+                    <!-- Floating Guarantee Card -->
+                    <div style="position: absolute; top: -20px; left: -20px; background: var(--card-bg); padding: 24px; border-radius: 20px; box-shadow: var(--shadow-hover); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 16px; z-index: 2;">
+                        <div style="width: 48px; height: 48px; background: #FFF4E5; color: #E65100; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;">★</div>
+                        <div>
+                            <div style="font-weight: 700; color: var(--text-primary);">Money Back Guarantee</div>
+                            <div style="color: var(--text-secondary); font-size: 13px;">On NCLEX pass outcomes.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top grid-4">
+                <div class="footer-widget">
+                    <a href="index.html" class="nav-brand" style="margin-bottom: 24px; display: inline-flex;">
+                        <div class="nav-brand-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                        </div>
+                        <span>Nurse</span>
+                    </a>
+                    <p style="color: var(--text-secondary); margin-bottom: 24px;">Empowering future medical professionals to conquer high-stakes licensing exams with clinical confidence.</p>
+                    <div class="social-icons-contact" style="display: flex; gap: 12px;">
+                        <a href="#" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                        <a href="#" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-widget">
+                    <h4>Prep Programs</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="courses.html">Our Courses</a></li>
+                        <li><a href="study-packages.html">Study Packages</a></li>
+                        <li><a href="pricing.html">Pricing Plans</a></li>
+                    </ul>
+                </div>
+                <div class="footer-widget">
+                    <h4>Support Portal</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="login.html">Student Login</a></li>
+                        <li><a href="register.html">Create Account</a></li>
+                        <li><a href="dashboard.html">My Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-widget">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li>📞 1-800-555-PREP</li>
+                        <li>✉️ support@medicnurse.com</li>
+                        <li>📍 500 Scholar way, Education District</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom" style="justify-content: center; text-align: center;">
+                <p>&copy; 2026 Nurse Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

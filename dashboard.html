@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Dashboard | Nurse</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-mode.css">
+    <link rel="stylesheet" href="assets/css/rtl.css">
+    <style>
+        /* Dashboard Layout Overrides */
+        body { margin: 0; }
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .dashboard-sidebar {
+            top: 0 !important;
+            height: 100vh !important;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000 !important;
+            padding-top: 0 !important;
+        }
+        .dashboard-sidebar-brand {
+            height: 72px !important;
+            min-height: 72px !important;
+            box-sizing: border-box !important;
+            padding: 0 32px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .dashboard-sidebar-brand .nav-brand {
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard-nav-wrapper {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .dashboard-main-area {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .dashboard-navbar {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            z-index: 99;
+            width: calc(100% - 280px);
+            height: 72px !important;
+            min-height: 72px !important;
+            box-sizing: border-box !important;
+            background: var(--primary-bg);
+            border-bottom: 1px solid #CBD5E1 !important; /* Darker border to clearly show navbar boundary */
+        }
+        .dashboard-content {
+            margin-left: 0 !important;
+            padding: 0 32px 32px 32px !important;
+            padding-top: 72px !important; /* Flush against fixed navbar */
+            min-height: 100vh !important;
+        }
+        .dashboard-section h2 {
+            margin-top: 0 !important;
+            padding-top: 0 !important; /* Absolute zero gap, perfectly flush */
+            line-height: 1 !important; /* Strip invisible font height */
+        }
+        .mobile-only-brand {
+            display: none;
+        }
+        /* ── 1024px: Slim sidebar + fix content grids ── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            /* Narrow the sidebar */
+            .dashboard-sidebar { width: 220px !important; }
+
+            /* Shift main area and navbar to match narrower sidebar */
+            .dashboard-main-area { margin-left: 220px !important; }
+            .dashboard-navbar {
+                left: 220px !important;
+                width: calc(100% - 220px) !important;
+            }
+
+            /* Reduce inner content padding */
+            .dashboard-content {
+                padding: 0 20px 20px 20px !important;
+            }
+
+            /* RTL adjustments for narrower sidebar at 1024px */
+            [dir="rtl"] .dashboard-main-area { margin-right: 220px !important; margin-left: 0 !important; }
+            [dir="rtl"] .dashboard-navbar { right: 220px !important; left: 0 !important; }
+
+            /* Stat cards row: 2 columns instead of 4 */
+            .dashboard-section .grid-4 {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 16px !important;
+            }
+
+            /* Inner 3-column grids: 2 columns */
+            .dashboard-section .grid-3 {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 16px !important;
+            }
+
+            /* Inner 2-column grids: stay 2-col but reduce gap */
+            .dashboard-section .grid-2 {
+                gap: 16px !important;
+            }
+
+            /* Sidebar nav font — slightly smaller to fit 220px */
+            .dashboard-nav li a {
+                font-size: 13.5px !important;
+                padding: 12px 20px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-main-area { margin-left: 0; }
+            .mobile-only-brand { display: flex !important; }
+            .dashboard-navbar {
+                left: 0;
+                width: 100%;
+            }
+        }
+
+        /* ── 360px: Fix tutor row button overlap ── */
+        @media (max-width: 400px) {
+            /* Wrap the row: info on top, button below */
+            .care-team-row {
+                flex-wrap: wrap !important;
+                gap: 12px !important;
+            }
+
+            /* Let the info block take full width */
+            .care-team-info {
+                flex: 1 1 100% !important;
+                width: 100% !important;
+            }
+
+            /* Button: full width, or right-aligned below */
+            .care-team-row > .btn {
+                align-self: flex-start !important;
+                margin-left: 64px !important; /* indent under avatar */
+                flex-shrink: 0 !important;
+            }
+
+            /* Reduce stat card font sizes so they don't overflow at 360px */
+            .dashboard-section .grid-4 {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+            }
+
+            .dashboard-section .grid-4 .card {
+                padding: 16px !important;
+            }
+
+            .dashboard-section .grid-4 .card div[style*="font-size: 20px"] {
+                font-size: 16px !important;
+            }
+
+            /* Stack grid-2 to single column at 360px */
+            .dashboard-section .grid-2 {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            /* Reduce content horizontal padding */
+            .dashboard-content {
+                padding: 0 16px 16px 16px !important;
+            }
+        }
+
+        /* RTL Layout — must live here to outrank the margin-left/left above */
+        [dir="rtl"] .dashboard-sidebar {
+            left: auto !important;
+            right: 0 !important;
+            border-right: none !important;
+            border-left: 1px solid var(--border-color) !important;
+        }
+        [dir="rtl"] .dashboard-main-area {
+            margin-left: 0 !important;
+            margin-right: 280px !important;
+        }
+        /* dashboard-content is INSIDE main-area — zero out both margins so there's no double offset */
+        [dir="rtl"] .dashboard-content {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        [dir="rtl"] .dashboard-navbar {
+            left: 0 !important;
+            right: 280px !important;
+            width: auto !important;
+        }
+        /* Flip nav-actions to the LEFT in RTL (reading-start side = right, but controls should anchor to right edge near sidebar) */
+        [dir="rtl"] .dashboard-navbar .nav-actions {
+            margin-left: 0 !important;
+            margin-right: auto !important;
+        }
+        [dir="rtl"] .dashboard-sidebar .nav-brand {
+            flex-direction: row-reverse;
+        }
+        [dir="rtl"] .dashboard-nav li a {
+            flex-direction: row-reverse;
+            border-left: none;
+            border-right: 4px solid transparent;
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        [dir="rtl"] .dashboard-nav li a:hover,
+        [dir="rtl"] .dashboard-nav li a.active {
+            border-right-color: var(--primary-accent);
+            border-left-color: transparent;
+        }
+        @media (max-width: 1024px) {
+            [dir="rtl"] .dashboard-sidebar {
+                transform: translateX(100%) !important;
+                right: 0 !important;
+                left: auto !important;
+            }
+            [dir="rtl"] .dashboard-sidebar.open {
+                transform: translateX(0) !important;
+            }
+            [dir="rtl"] .dashboard-main-area {
+                margin-right: 0 !important;
+            }
+            [dir="rtl"] .dashboard-navbar {
+                right: 0 !important;
+                left: 0 !important;
+            }
+        }
+
+        /* RTL Component — Care Team rows */
+        [dir="rtl"] .care-team-row {
+            flex-direction: row-reverse !important;
+        }
+        [dir="rtl"] .care-team-info {
+            flex-direction: row-reverse !important;
+        }
+        [dir="rtl"] .care-team-info > div {
+            text-align: right;
+        }
+
+        /* RTL Component — Recent Care Update rows */
+        [dir="rtl"] .care-update-row {
+            flex-direction: row-reverse !important;
+        }
+        [dir="rtl"] .care-update-row > div:last-child {
+            text-align: right;
+        }
+
+        /* RTL Component — Stat cards text alignment */
+        [dir="rtl"] .grid-4 .card,
+        [dir="rtl"] .grid-2 .card {
+            text-align: right;
+        }
+
+        /* RTL Component — Chat input bar */
+        [dir="rtl"] .chat-input-bar {
+            flex-direction: row-reverse;
+        }
+
+        /* RTL — Navbar user info: flip border from left to right */
+        [dir="rtl"] .user-info-divider {
+            border-left: none !important;
+            border-right: 1px solid var(--border-color) !important;
+            padding-left: 0 !important;
+            padding-right: 10px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <div class="dashboard-sidebar-brand">
+                <a href="index.html" class="nav-brand">
+                    <div class="nav-brand-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 2px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                    </div>
+                    <span>Nurse</span>
+                </a>
+            </div>
+            <div class="dashboard-nav-wrapper">
+                <ul class="dashboard-nav">
+                    <li><a href="#overview" class="active">📊 Study Overview</a></li>
+                    <li><a href="#schedule">📅 Schedule Mock Exam</a></li>
+                    <li><a href="#logs">📝 Study &amp; Test Logs</a></li>
+                    <li><a href="#nurses">👩‍⚕️ Assigned Tutors</a></li>
+                    <li><a href="#messages">💬 Messages</a></li>
+                    <li><a href="#billing">💳 Subscriptions</a></li>
+                    <li><a href="#reports">📈 Accuracy &amp; Reports</a></li>
+                    <li><a href="#settings">⚙️ Settings</a></li>
+                    <li style="margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 16px;"><a href="index.html" style="color: #e74c3c;">🚪 Logout</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="dashboard-main-area">
+            <nav class="navbar dashboard-navbar">
+                <div class="container" style="max-width: 100%; padding: 0 32px;">
+                    <div class="mobile-only-brand">
+                        <a href="index.html" class="nav-brand">
+                            <div class="nav-brand-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                            </div>
+                            <span>Nurse</span>
+                        </a>
+                    </div>
+                    <div class="nav-actions" style="flex-wrap: nowrap; gap: 10px; margin-left: auto;">
+                        <button id="themeToggle" class="action-icon" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+                        <button id="rtlToggle" class="action-icon" aria-label="Toggle RTL" title="Toggle RTL">⇄</button>
+                        <div class="user-info-divider" style="display: flex; align-items: center; gap: 8px; border-left: 1px solid var(--border-color); padding-left: 10px;">
+                            <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="User" style="width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;">
+                            <span class="dashboard-username" style="font-weight: 500; white-space: nowrap;">John Doe</span>
+                        </div>
+                        <button class="mobile-menu-toggle action-icon" id="dashboardMenuToggle" aria-label="Toggle Menu">☰</button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="dashboard-content">
+            
+            <!-- 1. Overview -->
+            <section id="overview" class="dashboard-section active" style="padding: 0;">
+                <h2 style="margin-bottom: 32px;">Welcome back, John</h2>
+                <div class="grid-4" style="margin-bottom: 40px;">
+                    <div class="card" style="padding: 24px;">
+                        <h4 style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Upcoming Mock Exam</h4>
+                        <div style="font-size: 20px; font-weight: 500;">Tomorrow, 2:00 PM</div>
+                        <p style="color: var(--primary-accent); margin-top: 8px;">NCLEX Diagnostic #3</p>
+                    </div>
+                    <div class="card" style="padding: 24px;">
+                        <h4 style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Active Prep Plan</h4>
+                        <div style="font-size: 20px; font-weight: 500;">NCLEX-RN Premium</div>
+                        <p style="color: var(--text-secondary); margin-top: 8px;">150 Qs / week</p>
+                    </div>
+                    <div class="card" style="padding: 24px;">
+                        <h4 style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Latest Mock Accuracy</h4>
+                        <div style="font-size: 20px; font-weight: 500;">Avg Score: 78%</div>
+                        <p style="color: var(--support-accent); margin-top: 8px;">Safe Pass - 2 hours ago</p>
+                    </div>
+                    <div class="card" style="padding: 24px; background: #FFF4E5; border-color: #FFE0B2;">
+                        <h4 style="color: #E65100; font-size: 14px; margin-bottom: 8px;">Weak Topic Alerts</h4>
+                        <div style="font-size: 20px; font-weight: 500; color: #E65100;">Cardiac Pharmacology</div>
+                        <p style="color: #E65100; margin-top: 8px;">54% Score - review needed</p>
+                    </div>
+                </div>
+
+                <div class="grid-2" style="gap: 32px;">
+                    <!-- Recent Care Updates -> Recent Study Updates -->
+                    <div class="card" style="padding: 32px;">
+                        <h3 style="margin-bottom: 24px; font-size: 20px;">Recent Study Updates</h3>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div class="care-update-row" style="display: flex; gap: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                                <div style="width: 48px; height: 48px; background: var(--secondary-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">📋</div>
+                                <div>
+                                    <h4 style="font-size: 16px; margin-bottom: 4px;">Mock Diagnostic Graded</h4>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">NCLEX Mock #2 completed with 76% accuracy rating.</p>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">Today, 10:30 AM</span>
+                                </div>
+                            </div>
+                            <div class="care-update-row" style="display: flex; gap: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                                <div style="width: 48px; height: 48px; background: var(--secondary-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">📅</div>
+                                <div>
+                                    <h4 style="font-size: 16px; margin-bottom: 4px;">Study Calendar Updated</h4>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">MSN tutor adjusted target cardiovascular drills for this week.</p>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">Today, 9:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="care-update-row" style="display: flex; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: var(--secondary-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">👩‍⚕️</div>
+                                <div>
+                                    <h4 style="font-size: 16px; margin-bottom: 4px;">Pharmacology Coaching</h4>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">David Chen reviewed your drug calculations log.</p>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">Yesterday, 8:00 AM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#logs" style="display: inline-block; margin-top: 24px; color: var(--primary-accent); font-weight: 500; text-decoration: none;">View all test records</a>
+                    </div>
+                    
+                    <!-- Quick Actions & Team -->
+                    <div style="display: flex; flex-direction: column; gap: 32px;">
+                        <div class="card" style="padding: 32px;">
+                            <h3 style="margin-bottom: 24px; font-size: 20px;">Your Study Tutors</h3>
+                            <div class="care-team-row" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 16px;">
+                                <div class="care-team-info" style="display: flex; align-items: center; gap: 16px;">
+                                    <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=0D8ABC&color=fff" alt="Tutor" style="width: 48px; height: 48px; border-radius: 50%;">
+                                    <div>
+                                        <h4 style="font-size: 16px; margin-bottom: 4px;">Sarah Jenkins, MSN</h4>
+                                        <p style="color: var(--text-secondary); font-size: 14px;">NCLEX Coach</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px; height: auto;">Message</button>
+                            </div>
+                            <div class="care-team-row" style="display: flex; align-items: center; justify-content: space-between;">
+                                <div class="care-team-info" style="display: flex; align-items: center; gap: 16px;">
+                                    <img src="https://ui-avatars.com/api/?name=David+Chen&background=059669&color=fff" alt="Pharmacology Coach" style="width: 48px; height: 48px; border-radius: 50%;">
+                                    <div>
+                                        <h4 style="font-size: 16px; margin-bottom: 4px;">David Chen, PharmD</h4>
+                                        <p style="color: var(--text-secondary); font-size: 14px;">Pharmacology Tutor</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px; height: auto;">Message</button>
+                            </div>
+                        </div>
+
+                        <div class="card" style="padding: 32px; background: var(--primary-accent); color: white; border: none;">
+                            <h3 style="margin-bottom: 16px; font-size: 20px; color: white;">Need immediate support?</h3>
+                            <p style="margin-bottom: 24px; font-size: 14px; color: rgba(255,255,255,0.9);">Our premium study coaches are available 24/7 to resolve difficult board concept rationales.</p>
+                            <button class="btn" style="background: white; color: var(--primary-accent); font-weight: 500; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Call Tutor Support</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Schedule Mock Exam -->
+            <section id="schedule" class="dashboard-section" style="padding: 0;">
+                <h2 style="margin-bottom: 32px;">Schedule Mock Exam</h2>
+                <div class="grid-2 tab-stack" style="gap: 32px;">
+                    <div class="card" style="padding: 32px;">
+                        <h3 style="margin-bottom: 24px;">Request Custom Quiz Session</h3>
+                        <form>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Time</label>
+                                    <input type="time" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Exam / Topic focus</label>
+                                <select class="form-control">
+                                    <option>NCLEX-RN Diagnostics Mock</option>
+                                    <option>Cardiac Pharmacology Drill</option>
+                                    <option>Pediatric Dosage Calculations</option>
+                                    <option>Fluid &amp; Electrolytes Target Quiz</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Tutor Guidance Focus (Optional)</label>
+                                <textarea class="form-control" rows="3" placeholder="List specific drug classes or nursing concepts you wish to drill..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Exam Request</button>
+                        </form>
+                    </div>
+                    <div>
+                        <div class="card" style="padding: 32px; height: 100%;">
+                            <h3 style="margin-bottom: 24px;">Upcoming Approved Diagnostics</h3>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px; border-left: 4px solid var(--primary-accent);">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                        <h4 style="font-size: 16px;">NCLEX Diagnostic Mock #3</h4>
+                                        <span style="background: rgba(5, 150, 105, 0.1); color: var(--primary-accent); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">Approved</span>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 4px;">Tomorrow &bull; 2:00 PM - 5:00 PM</p>
+                                    <p style="color: var(--text-primary); font-size: 14px;">Review Supervisor: Sarah Jenkins, MSN</p>
+                                </div>
+                                <div style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px; border-left: 4px solid var(--secondary-accent);">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                        <h4 style="font-size: 16px;">Dosage Calculations Drill</h4>
+                                        <span style="background: rgba(5, 150, 105, 0.1); color: var(--primary-accent); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500;">Approved</span>
+                                    </div>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 4px;">Friday, Jun 19 &bull; 9:00 AM - 11:00 AM</p>
+                                    <p style="color: var(--text-primary); font-size: 14px;">Review Supervisor: David Chen, PharmD</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Logs -> Study & Test Logs -->
+            <section id="logs" class="dashboard-section" style="padding: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+                    <h2 style="margin: 0;">Daily Study &amp; Test Logs</h2>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <input type="month" class="form-control" style="width: auto; height: 40px;">
+                        <button class="btn btn-secondary" style="height: 40px; padding: 0 16px; display: flex; align-items: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>Export</button>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <div class="table-responsive">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead style="background: var(--secondary-bg); border-bottom: 1px solid var(--border-color);">
+                                <tr>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Date &amp; Time</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Reviewer</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Test / Accuracy</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Tutor Rationales &amp; Feedback</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 16px;"><div style="font-weight: 500;">Today</div><div style="color: var(--text-secondary); font-size: 13px;">10:30 AM</div></td>
+                                    <td style="padding: 16px;">Sarah Jenkins, MSN</td>
+                                    <td style="padding: 16px;"><span style="background: rgba(16, 185, 129, 0.1); color: var(--support-accent); padding: 4px 8px; border-radius: 4px; font-size: 13px;">Score: 76%</span></td>
+                                    <td style="padding: 16px; color: var(--text-secondary); font-size: 14px; max-width: 300px;">Strong clinical reasoning on safety priorities. Re-study fluid volume calculations for pediatric cases.</td>
+                                    <td style="padding: 16px;"><span style="color: var(--support-accent); font-weight: 500;">Passed</span></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 16px;"><div style="font-weight: 500;">Yesterday</div><div style="color: var(--text-secondary); font-size: 13px;">4:00 PM</div></td>
+                                    <td style="padding: 16px;">David Chen, PharmD</td>
+                                    <td style="padding: 16px;"><span style="background: rgba(16, 185, 129, 0.1); color: var(--support-accent); padding: 4px 8px; border-radius: 4px; font-size: 13px;">Score: 90%</span></td>
+                                    <td style="padding: 16px; color: var(--text-secondary); font-size: 14px; max-width: 300px;">Dimensional analysis steps were flawless. Watch decimal placement on microgram drug questions.</td>
+                                    <td style="padding: 16px;"><span style="color: var(--support-accent); font-weight: 500;">Passed</span></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px;"><div style="font-weight: 500;">Jun 14, 2026</div><div style="color: var(--text-secondary); font-size: 13px;">8:00 AM</div></td>
+                                    <td style="padding: 16px;">Sarah Jenkins, MSN</td>
+                                    <td style="padding: 16px;"><span style="background: rgba(245, 158, 11, 0.1); color: #F59E0B; padding: 4px 8px; border-radius: 4px; font-size: 13px;">Score: 54%</span></td>
+                                    <td style="padding: 16px; color: var(--text-secondary); font-size: 14px; max-width: 300px;">Weak results in endocrine pharmacology. Review beta-blocker drug side-effects immediately.</td>
+                                    <td style="padding: 16px;"><span style="color: #F59E0B; font-weight: 500;">Review Needed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Assigned Tutors -->
+            <section id="nurses" class="dashboard-section" style="padding: 0;">
+                <h2 style="margin-bottom: 32px;">Assigned Prep Tutors</h2>
+                <div class="grid-3">
+                    <div class="card" style="text-align: center; padding: 32px; display: flex; flex-direction: column; height: 100%;">
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=0D8ABC&color=fff&size=128" alt="Tutor" style="width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 16px;">
+                        <h3 style="font-size: 18px; margin-bottom: 4px;">Sarah Jenkins, MSN</h3>
+                        <span style="background: rgba(5, 150, 105, 0.1); color: var(--primary-accent); padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 500; display: inline-block; margin-bottom: 16px;">Primary NCLEX-RN Coach</span>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">Specializes in next-gen case study strategies and clinical anxiety reduction. 8 years teaching experience.</p>
+                        <div style="display: flex; gap: 12px; justify-content: center; margin-top: auto;">
+                            <button class="btn btn-primary" style="flex: 1; padding: 8px 0; font-size: 14px; height: auto;">Message</button>
+                            <button class="btn btn-secondary" style="flex: 1; padding: 8px 0; font-size: 14px; height: auto;">Schedule</button>
+                        </div>
+                    </div>
+                    <div class="card" style="text-align: center; padding: 32px; display: flex; flex-direction: column; height: 100%;">
+                        <img src="https://ui-avatars.com/api/?name=David+Chen&background=10B981&color=fff&size=128" alt="Tutor" style="width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 16px;">
+                        <h3 style="font-size: 18px; margin-bottom: 4px;">David Chen, PharmD</h3>
+                        <span style="background: rgba(16, 185, 129, 0.1); color: var(--support-accent); padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 500; display: inline-block; margin-bottom: 16px;">Pharmacology Tutor</span>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">Focuses on critical drug classifications, safety margins, and math conversions calculations.</p>
+                        <div style="display: flex; gap: 12px; justify-content: center; margin-top: auto;">
+                            <button class="btn btn-primary" style="flex: 1; padding: 8px 0; font-size: 14px; height: auto;">Message</button>
+                            <button class="btn btn-secondary" style="flex: 1; padding: 8px 0; font-size: 14px; height: auto;">Schedule</button>
+                        </div>
+                    </div>
+                    <div class="card" style="text-align: center; padding: 32px; display: flex; flex-direction: column; height: 100%;">
+                        <img src="https://ui-avatars.com/api/?name=Dr.+Smith&background=047857&color=fff&size=128" alt="Tutor" style="width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 16px;">
+                        <h3 style="font-size: 18px; margin-bottom: 4px;">Dr. Robert Smith</h3>
+                        <span style="background: rgba(5, 150, 105, 0.1); color: var(--primary-accent); padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 500; display: inline-block; margin-bottom: 16px;">Director of Diagnostics</span>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">Reviews overall cohort accuracy trends to adjust predictive diagnostic passing algorithms.</p>
+                        <div style="display: flex; gap: 12px; justify-content: center; margin-top: auto;">
+                            <button class="btn btn-primary" style="flex: 1; padding: 8px 0; font-size: 14px; height: auto;">Message</button>
+                            <button class="btn btn-secondary" style="flex: 1; padding: 8px 0; font-size: 14px; height: auto;">Review</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Messages -->
+            <section id="messages" class="dashboard-section" style="padding: 0;">
+                <div class="chat-wrapper">
+                    <h2 style="margin-bottom: 24px; flex-shrink: 0;">Messages</h2>
+                    <div class="card chat-container" style="padding: 0; display: flex; overflow: hidden;">
+                    <!-- Chat Sidebar -->
+                    <div class="chat-sidebar" style="border-right: 1px solid var(--border-color); display: flex; flex-direction: column; background: var(--card-bg);">
+                        <div style="padding: 20px; border-bottom: 1px solid var(--border-color);">
+                            <input type="text" class="form-control" placeholder="Search conversations...">
+                        </div>
+                        <div style="flex-grow: 1; overflow-y: auto;">
+                            <!-- Active Chat -->
+                            <div style="padding: 16px 20px; border-bottom: 1px solid var(--border-color); background: rgba(5, 150, 105, 0.05); cursor: pointer; display: flex; gap: 12px; border-left: 3px solid var(--primary-accent);">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=0D8ABC&color=fff" alt="Tutor" style="width: 44px; height: 44px; border-radius: 50%;">
+                                <div style="flex-grow: 1; min-width: 0;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                        <h4 style="font-size: 15px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sarah Jenkins, MSN</h4>
+                                        <span style="font-size: 12px; color: var(--text-secondary);">10:42 AM</span>
+                                    </div>
+                                    <p style="margin: 0; font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Mock #3 is scheduled. Let me know if you need endocrine summaries.</p>
+                                </div>
+                            </div>
+                            <!-- Chat 2 -->
+                            <div style="padding: 16px 20px; border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; gap: 12px; border-left: 3px solid transparent; transition: background 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.02)'" onmouseout="this.style.background='transparent'">
+                                <img src="https://ui-avatars.com/api/?name=Billing+Support&background=374151&color=fff" alt="Support" style="width: 44px; height: 44px; border-radius: 50%;">
+                                <div style="flex-grow: 1; min-width: 0;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                        <h4 style="font-size: 15px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Billing Support</h4>
+                                        <span style="font-size: 12px; color: var(--text-secondary);">Yesterday</span>
+                                    </div>
+                                    <p style="margin: 0; font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Your monthly Premium Prep Suite renewal was processed.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Chat Area -->
+                    <div style="flex-grow: 1; display: flex; flex-direction: column; background: var(--primary-bg);">
+                        <!-- Chat Header -->
+                        <div style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; background: var(--card-bg);">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=0D8ABC&color=fff" alt="Tutor" style="width: 40px; height: 40px; border-radius: 50%;">
+                                <div>
+                                    <h3 style="font-size: 16px; margin: 0;">Sarah Jenkins, MSN</h3>
+                                    <span style="font-size: 13px; color: var(--support-accent);">Online</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 8px 16px; height: auto;">View Profile</button>
+                        </div>
+                        <!-- Chat Messages -->
+                        <div style="flex-grow: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 16px;">
+                                <span style="font-size: 12px; color: var(--text-secondary); background: var(--card-bg); padding: 4px 12px; border-radius: 50px; border: 1px solid var(--border-color);">Today</span>
+                            </div>
+                            <!-- Received -->
+                            <div style="display: flex; gap: 12px; max-width: 80%;">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=0D8ABC&color=fff" alt="Tutor" style="width: 32px; height: 32px; border-radius: 50%; margin-top: auto;">
+                                <div style="background: var(--card-bg); padding: 12px 16px; border-radius: 16px; border-bottom-left-radius: 4px; border: 1px solid var(--border-color);">
+                                    <p style="margin: 0; font-size: 14px;">Good morning John! I've set up NCLEX Diagnostic Mock #3 for tomorrow at 2:00 PM. Make sure to review medication onset rationales.</p>
+                                    <span style="font-size: 11px; color: var(--text-secondary); margin-top: 6px; display: block;">10:05 AM</span>
+                                </div>
+                            </div>
+                            <!-- Sent -->
+                            <div style="display: flex; gap: 12px; max-width: 80%; align-self: flex-end; flex-direction: row-reverse;">
+                                <div style="background: var(--primary-accent); color: white; padding: 12px 16px; border-radius: 16px; border-bottom-right-radius: 4px;">
+                                    <p style="margin: 0; font-size: 14px;">Hi Sarah, sounds great. I spent this morning reviewing cardiac pharmacokinetics and dosage rules.</p>
+                                    <span style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 6px; display: block; text-align: right;">10:30 AM</span>
+                                </div>
+                            </div>
+                            <!-- Received -->
+                            <div style="display: flex; gap: 12px; max-width: 80%;">
+                                <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=0D8ABC&color=fff" alt="Tutor" style="width: 32px; height: 32px; border-radius: 50%; margin-top: auto;">
+                                <div style="background: var(--card-bg); padding: 12px 16px; border-radius: 16px; border-bottom-left-radius: 4px; border: 1px solid var(--border-color);">
+                                    <p style="margin: 0; font-size: 14px;">Perfect! I updated your study plan. Rationales look very solid now.</p>
+                                    <span style="font-size: 11px; color: var(--text-secondary); margin-top: 6px; display: block;">10:42 AM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Chat Input -->
+                        <div class="chat-input-bar">
+                            <button class="chat-attach-btn" aria-label="Attach file">📎</button>
+                            <input type="text" class="chat-input-field" placeholder="Type your message...">
+                            <button class="chat-send-btn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                                <span>Send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <!-- 6. Subscriptions -->
+            <section id="billing" class="dashboard-section" style="padding: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <h2 style="margin: 0;">Subscription Billing</h2>
+                    <button class="btn btn-primary" style="height: 40px; padding: 0 16px;">Update Plan</button>
+                </div>
+                <div class="grid-2" style="gap: 32px; margin-bottom: 32px;">
+                    <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Unbilled Overages</h4>
+                            <div style="font-size: 32px; font-weight: 500; color: var(--primary-accent);">$0.00</div>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: rgba(5, 150, 105, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">💳</div>
+                    </div>
+                    <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <h4 style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">Next Auto-Pay</h4>
+                            <div style="font-size: 20px; font-weight: 500;">Jul 01, 2026</div>
+                            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Premium Prep Plan ($89/mo)</p>
+                        </div>
+                        <div style="width: 56px; height: 56px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">🔄</div>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <div class="table-responsive">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead style="background: var(--secondary-bg); border-bottom: 1px solid var(--border-color);">
+                                <tr>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Invoice ID</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Billing Period</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Amount</th>
+                                    <th style="padding: 16px; text-align: left; font-weight: 500;">Status</th>
+                                    <th style="padding: 16px; text-align: right; font-weight: 500;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 16px; font-weight: 500;">#INV-2026-06</td>
+                                    <td style="padding: 16px; color: var(--text-secondary);">Jun 01 - Jun 30, 2026</td>
+                                    <td style="padding: 16px; font-weight: 500;">$89.00</td>
+                                    <td style="padding: 16px;"><span style="background: rgba(16, 185, 129, 0.1); color: var(--support-accent); padding: 4px 8px; border-radius: 4px; font-size: 13px;">Paid</span></td>
+                                    <td style="padding: 16px; text-align: right;"><button class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px; height: auto;">Download Receipt</button></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; font-weight: 500;">#INV-2026-05</td>
+                                    <td style="padding: 16px; color: var(--text-secondary);">May 01 - May 31, 2026</td>
+                                    <td style="padding: 16px; font-weight: 500;">$89.00</td>
+                                    <td style="padding: 16px;"><span style="background: rgba(16, 185, 129, 0.1); color: var(--support-accent); padding: 4px 8px; border-radius: 4px; font-size: 13px;">Paid</span></td>
+                                    <td style="padding: 16px; text-align: right;"><button class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px; height: auto;">Download Receipt</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. Accuracy & Reports -->
+            <section id="reports" class="dashboard-section" style="padding: 0;">
+                <h2 style="margin-bottom: 32px;">Study Reports &amp; Analytics</h2>
+                <div class="grid-3">
+                    <div class="card" style="padding: 24px; display: flex; flex-direction: column;">
+                        <div style="width: 48px; height: 48px; background: rgba(5, 150, 105, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">📊</div>
+                        <h3 style="margin-bottom: 8px; font-size: 18px;">Monthly Accuracy Report</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; flex-grow: 1;">A comprehensive 30-day view of diagnostic scores, percentile rankings, and speed statistics.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 12px; color: var(--text-secondary);">June 2026</span>
+                            <button class="btn btn-primary" style="padding: 6px 16px; font-size: 13px; height: auto;">View Analytics</button>
+                        </div>
+                    </div>
+                    <div class="card" style="padding: 24px; display: flex; flex-direction: column;">
+                        <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">🔥</div>
+                        <h3 style="margin-bottom: 8px; font-size: 18px;">Weak Category Analytics</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; flex-grow: 1;">Notes on client need subcategories, flagged medication classes, and review milestones.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 12px; color: var(--text-secondary);">Last updated yesterday</span>
+                            <button class="btn btn-primary" style="padding: 6px 16px; font-size: 13px; height: auto;">View Analytics</button>
+                        </div>
+                    </div>
+                    <div class="card" style="padding: 24px; display: flex; flex-direction: column;">
+                        <div style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px;">📚</div>
+                        <h3 style="margin-bottom: 8px; font-size: 18px;">Curriculum Adherence</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; flex-grow: 1;">Percentage of recommended syllabus milestones, reading materials, and video lectures completed.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 12px; color: var(--text-secondary);">94% Completed</span>
+                            <button class="btn btn-primary" style="padding: 6px 16px; font-size: 13px; height: auto;">View Analytics</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Settings -->
+            <section id="settings" class="dashboard-section" style="padding: 0;">
+                <h2 style="margin-bottom: 32px;">Student Settings</h2>
+                <div class="grid-2" style="gap: 32px;">
+                    <div class="card" style="padding: 32px;">
+                        <h3 style="margin-bottom: 24px; font-size: 18px;">Profile Information</h3>
+                        <form>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" value="John">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" value="Doe">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" class="form-control" value="john.doe@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" class="form-control" value="+1 (555) 123-4567">
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+                        </form>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 32px;">
+                        <div class="card" style="padding: 32px;">
+                            <h3 style="margin-bottom: 24px; font-size: 18px;">Preferences</h3>
+                            <form>
+                                <div class="form-group">
+                                    <label>Overage Alerts &amp; Reports</label>
+                                    <select class="form-control">
+                                        <option>Daily Report Cards</option>
+                                        <option selected>Weekly Summaries</option>
+                                        <option>Weak Category Alerts Only</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Language</label>
+                                    <select class="form-control">
+                                        <option selected>English</option>
+                                        <option>Spanish</option>
+                                        <option>Arabic</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-secondary mt-3">Save Preferences</button>
+                            </form>
+                        </div>
+                        <div class="card" style="padding: 32px; border-color: rgba(239, 68, 68, 0.3);">
+                            <h3 style="margin-bottom: 16px; font-size: 18px; color: #EF4444;">Danger Zone</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">If you cancel your active study plan, your weak category metrics and test history logs will be archived.</p>
+                            <button class="btn" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2);">Cancel Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

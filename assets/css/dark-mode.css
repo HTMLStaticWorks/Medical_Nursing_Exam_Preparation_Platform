@@ -1,0 +1,77 @@
+[data-theme="dark"] {
+    --primary-bg: #071611;
+    --secondary-bg: #0D2018;
+    --card-bg: #122B22;
+    --text-primary: #ECFDF5;
+    --text-secondary: #6EE7B7;
+    --border-color: #1A4035;
+    
+    --primary-accent: #10B981;
+    --secondary-accent: #059669;
+    --shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.3), 0 2px 8px -2px rgba(0, 0, 0, 0.2);
+    --shadow-hover: 0 20px 40px -8px rgba(0, 0, 0, 0.5), 0 12px 16px -6px rgba(0, 0, 0, 0.4);
+
+    /* Override light-mode section palette vars for dark mode */
+    --section-alt-bg: #0D2018;
+    --section-accent-bg: #122B22;
+    --section-warm-bg: #071611;
+}
+
+/* Neutralize light-mode section differentiation in dark mode */
+[data-theme="dark"] section.premium-section:not(.bg-secondary):nth-of-type(2) {
+    background-color: var(--primary-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] section.premium-section.bg-secondary:nth-of-type(3) {
+    background: var(--secondary-bg) !important;
+}
+
+[data-theme="dark"] section.bg-secondary:not(.premium-section) {
+    background-color: var(--secondary-bg) !important;
+    border-top: 1px solid var(--border-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] section.premium-section:not(.bg-secondary):nth-of-type(5) {
+    background-color: var(--primary-bg) !important;
+    border-top: 3px solid var(--border-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .navbar {
+    background: rgba(7, 22, 17, 0.85);
+}
+
+[data-theme="dark"] .btn-primary {
+    background-color: var(--primary-accent);
+    color: #071611;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background-color: #059669;
+}
+
+[data-theme="dark"] .btn-secondary {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background: var(--primary-accent) !important;
+    color: #071611 !important;
+    border-color: var(--primary-accent) !important;
+}
+
+[data-theme="dark"] .action-icon {
+    background-color: var(--secondary-bg);
+}
+
+[data-theme="dark"] .card-icon {
+    background-color: #0D2018;
+}
+
+/* Images opacity slightly lowered in dark mode to reduce glare */
+[data-theme="dark"] img {
+    opacity: 0.9;
+}
