@@ -1649,3 +1649,219 @@ th {
         margin-right: 0 !important;
     }
 }
+
+/* =========================================================
+   ADDITIONAL RESPONSIVE ENHANCEMENTS & TWEAKS
+   ========================================================= */
+
+/* 1. Courses Page: Know More Links in Cards */
+.card-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
+}
+
+.card-actions .btn, 
+.card-actions .btn-secondary {
+    margin-top: 0 !important;
+    align-self: center !important;
+    width: 100% !important;
+    text-align: center;
+    justify-content: center;
+}
+
+.know-more-link {
+    color: var(--primary-accent);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 15px;
+    transition: var(--transition);
+    white-space: nowrap;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.know-more-link:hover {
+    color: var(--secondary-accent);
+}
+
+.know-more-link svg {
+    transition: transform 0.3s ease;
+}
+
+.know-more-link:hover svg {
+    transform: translateX(4px);
+}
+
+/* 2. Courses Page: Ready to Conquer Exam Anxiety CTA Section */
+.cta-anxiety-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    padding: 64px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-anxiety-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-accent);
+}
+
+.cta-anxiety-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-accent), var(--support-accent));
+}
+
+@media (max-width: 768px) {
+    .cta-anxiety-card {
+        padding: 40px 24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .cta-anxiety-card {
+        padding: 32px 16px !important;
+    }
+    
+    /* Increase padding for CTA buttons on 360px mobile view */
+    .cta-anxiety-card .cta-btn {
+        padding: 16px 24px !important;
+        height: auto !important;
+        font-size: 15px !important;
+        margin-bottom: 4px;
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+}
+
+/* 3. Study Packages: Horizontal scrollbar for Package Comparison */
+.table-responsive {
+    width: 100%;
+    overflow-x: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: auto !important;
+    scrollbar-color: var(--primary-accent) #e6f7f1 !important;
+}
+
+/* Custom Scrollbar for Package Comparison on small viewports */
+.table-responsive::-webkit-scrollbar {
+    height: 10px !important;
+    display: block !important;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #e6f7f1 !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: var(--primary-accent) !important;
+    border-radius: 6px !important;
+    border: 2px solid #e6f7f1 !important;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-accent) !important;
+}
+
+@media (max-width: 640px) {
+    .table-responsive table {
+        min-width: 600px; /* Forces overflow causing horizontal scrollbar on mobile */
+    }
+}
+
+/* 4. Dashboard: Mobile View hamburger menu elements */
+.sidebar-mobile-profile {
+    display: none;
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--border-color);
+    flex-direction: column;
+    gap: 16px;
+    background: var(--secondary-bg);
+}
+
+.mobile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-accent);
+}
+
+.mobile-username {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.mobile-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.mobile-actions .action-icon {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: var(--transition);
+}
+
+.mobile-actions .action-icon:hover {
+    border-color: var(--primary-accent);
+    color: var(--primary-accent);
+}
+
+@media (max-width: 768px) {
+    .sidebar-mobile-profile {
+        display: flex;
+    }
+    
+    /* Hide desktop actions from dashboard navbar on mobile views */
+    .dashboard-navbar #themeToggle,
+    .dashboard-navbar #rtlToggle,
+    .dashboard-navbar .user-info-divider {
+        display: none !important;
+    }
+}
+
+/* RTL layout adjustments for Mobile sidebar elements */
+[dir="rtl"] .mobile-user-info {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .mobile-actions {
+    flex-direction: row-reverse;
+}

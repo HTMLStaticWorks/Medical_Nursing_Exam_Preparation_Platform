@@ -1,18 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Dark Mode Toggle
-    const themeToggle = document.getElementById('themeToggle');
+    const themeToggles = document.querySelectorAll('#themeToggle, .theme-toggle-btn');
     const root = document.documentElement;
     
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = root.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                root.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                root.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
+    if (themeToggles.length > 0) {
+        themeToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const currentTheme = root.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    root.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    root.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
         });
         
         // Load saved theme
@@ -23,17 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // RTL Toggle
-    const rtlToggle = document.getElementById('rtlToggle');
-    if (rtlToggle) {
-        rtlToggle.addEventListener('click', () => {
-            const currentDir = root.getAttribute('dir');
-            if (currentDir === 'rtl') {
-                root.removeAttribute('dir');
-                localStorage.setItem('dir', 'ltr');
-            } else {
-                root.setAttribute('dir', 'rtl');
-                localStorage.setItem('dir', 'rtl');
-            }
+    const rtlToggles = document.querySelectorAll('#rtlToggle, .rtl-toggle-btn');
+    if (rtlToggles.length > 0) {
+        rtlToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const currentDir = root.getAttribute('dir');
+                if (currentDir === 'rtl') {
+                    root.removeAttribute('dir');
+                    localStorage.setItem('dir', 'ltr');
+                } else {
+                    root.setAttribute('dir', 'rtl');
+                    localStorage.setItem('dir', 'rtl');
+                }
+            });
         });
         
         // Load saved dir
